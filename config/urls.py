@@ -5,5 +5,6 @@ from django.urls import path, include, re_path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("accounts.urls")),
+    path('', include("players.urls")),
     re_path(r'^.*/$', lambda request: redirect("home", permanent=True)),
 ]
