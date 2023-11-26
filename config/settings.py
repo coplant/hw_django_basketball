@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts.apps.AccountsConfig',
+    'players.apps.PlayersConfig',
 
     'phonenumber_field',
 ]
@@ -123,6 +124,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = ['accounts.backends.AuthBackend']
 
-LOGOUT_REDIRECT_URL = '/home'
-LOGIN_REDIRECT_URL = '/home'
-LOGIN_URL = '/login'
+LOGOUT_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = "login"

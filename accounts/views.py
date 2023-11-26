@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from accounts.forms import CustomUserCreationForm, CustomUserLoginForm
@@ -8,7 +7,7 @@ from accounts.forms import CustomUserCreationForm, CustomUserLoginForm
 
 def login_view(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         if request.method == "POST":
             form = CustomUserLoginForm(request, data=request.POST)
@@ -18,7 +17,7 @@ def login_view(request):
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
-                    return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+                    return redirect(settings.LOGIN_REDIRECT_URL)
             return render(request, "accounts/login.html", {"form": form})
         else:
             form = CustomUserLoginForm()
