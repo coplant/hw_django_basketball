@@ -25,9 +25,25 @@ class CustomUserLoginForm(AuthenticationForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    first_name = forms.CharField(label='Имя', widget=forms.TextInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Имя', 'autocomplete': 'new-password'}))
+    last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Фамилия', 'autocomplete': 'new-password'}))
+    username = forms.CharField(label='Логин', required=False, widget=forms.TextInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Логин', 'autocomplete': 'new-password'}))
+    email = forms.CharField(label='Email', widget=forms.TextInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Email', 'autocomplete': 'new-password'}))
+    phone_number = forms.CharField(label='Номер телефона', required=False, widget=forms.TextInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Номер телефона', 'autocomplete': 'new-password'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Пароль', 'autocomplete': 'new-password'}))
+    password2 = forms.CharField(label='Пароль (подтверждение)', widget=forms.PasswordInput(
+        attrs={'class': 'form-input form-control', 'placeholder': 'Пароль (подтверждение)',
+               'autocomplete': 'new-password'}))
+
     class Meta(UserCreationForm):
         model = User
-        fields = ("username", "email", "phone_number",)
+        fields = ("first_name", "last_name", "email", "username", "phone_number",)
 
 
 class CustomUserChangeForm(UserChangeForm):
