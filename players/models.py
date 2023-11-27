@@ -37,6 +37,8 @@ class Match(models.Model):
     team_home = models.ForeignKey(Team, related_name='home_matches', on_delete=models.CASCADE)
     team_away = models.ForeignKey(Team, related_name='away_matches', on_delete=models.CASCADE)
     date = models.DateField()
+    time = models.TimeField(default="09:00:00")
+    place = models.TextField(default="ул. Биатлонная, 25Б")
     is_finished = models.BooleanField("Игра состоялась", default=0)
 
     team_home_score = models.PositiveIntegerField(default=0)
