@@ -15,8 +15,13 @@ def team_detail(request, team_id):
 
 
 def match_list(request):
-    matches = Match.objects.all()
+    matches = Match.objects.filter(is_finished=0)
     return render(request, "players/match_list.html", {"matches": matches})
+
+
+def past_match_list(request):
+    matches = Match.objects.filter(is_finished=1)
+    return render(request, "players/match_list.html", {"matches": matches, "is_finished": True})
 
 
 def player_stat(request, player_id):
