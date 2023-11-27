@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.forms import FileInput
+
+from players.models import Player, Team
 
 User = get_user_model()
 
@@ -25,31 +27,52 @@ class CustomUserLoginForm(AuthenticationForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
-    first_name = forms.CharField(label='Имя', widget=forms.TextInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Имя', 'autocomplete': 'new-password'}))
-    last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Фамилия', 'autocomplete': 'new-password'}))
-    username = forms.CharField(label='Логин', required=False, widget=forms.TextInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Логин', 'autocomplete': 'new-password'}))
-    email = forms.CharField(label='Email', widget=forms.TextInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Email', 'autocomplete': 'new-password'}))
-    phone_number = forms.CharField(label='Номер телефона', required=False, widget=forms.TextInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Номер телефона', 'autocomplete': 'new-password'}))
-    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Пароль', 'autocomplete': 'new-password'}))
-    password2 = forms.CharField(label='Пароль (подтверждение)', widget=forms.PasswordInput(
-        attrs={'class': 'form-input form-control', 'placeholder': 'Пароль (подтверждение)',
-               'autocomplete': 'new-password'}))
+    first_name = forms.CharField(label="Имя", widget=forms.TextInput(
+        attrs={"class": "form-input form-control", "placeholder": "Имя", "autocomplete": "new-password"}))
+    last_name = forms.CharField(label="Фамилия", widget=forms.TextInput(
+        attrs={"class": "form-input form-control", "placeholder": "Фамилия", "autocomplete": "new-password"}))
+    username = forms.CharField(label="Логин", required=False, widget=forms.TextInput(
+        attrs={"class": "form-input form-control", "placeholder": "Логин", "autocomplete": "new-password"}))
+    email = forms.CharField(label="Email", widget=forms.TextInput(
+        attrs={"class": "form-input form-control", "placeholder": "Email", "autocomplete": "new-password"}))
+    team = forms.ModelChoiceField(label="Команда", queryset=Team.objects.all(), widget=forms.Select(
+        attrs={"class": "form-input form-control", "placeholder": "Команда"}))
+    phone_number = forms.CharField(label="Номер телефона", required=False, widget=forms.TextInput(
+        attrs={"class": "form-input form-control", "placeholder": "Номер телефона", "autocomplete": "new-password"}))
+    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(
+        attrs={"class": "form-input form-control", "placeholder": "Пароль", "autocomplete": "new-password"}))
+    password2 = forms.CharField(label="Пароль (подтверждение)", widget=forms.PasswordInput(
+        attrs={"class": "form-input form-control", "placeholder": "Пароль (подтверждение)",
+               "autocomplete": "new-password"}))
+
+    def clean_username(self):
+        return self.cleaned_data["username"] or None
+
+    def clean_email(self):
+        return self.cleaned_data["email"] or None
+
+    def clean_phone_number(self):
+        return self.cleaned_data["phone_number"] or None
 
     class Meta(UserCreationForm):
         model = User
-        fields = ("first_name", "last_name", "email", "username", "phone_number",)
+        fields = ("first_name", "last_name", "email", "team", "username", "phone_number",)
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
+    birth_date = forms.DateField(widget=forms.SelectDateWidget(attrs={"class": "form-control"}))
+    height = forms.NumberInput(attrs={"class": "form-control"})
+    weight = forms.NumberInput(attrs={"class": "form-control"})
+
     class Meta:
-        model = User
-        fields = ("username", "email", "phone_number",)
+        model = Player
+        fields = ("birth_date", "height", "weight",)
+
+    labels = {
+        "birth_date": "Дата рождения",
+        "height": "Рост",
+        "weight": "Вес",
+    }
 
 
 class UserProfileForm(forms.ModelForm):

@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
     def link_to_user(self, obj):
         link = reverse("admin:accounts_customuser_change", args=[obj.user_id])
-        return format_html('<a href="{}">{}</a>', link, obj.user.username)
+        return format_html('<a href="{}">{}</a>', link, obj.user.get_full_name())
 
     link_to_user.short_description = 'Edit user'
 

@@ -2,7 +2,8 @@ from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 
-from accounts.forms import CustomUserCreationForm, CustomUserLoginForm, UserProfileForm
+from accounts.forms import CustomUserCreationForm, CustomUserLoginForm, UserProfileForm, CustomUserChangeForm
+from players.models import Player
 
 
 def login_view(request):
@@ -36,6 +37,8 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            player = Player(user=user, team=form.cleaned_data.get("team"))
+            player.save()
             return redirect(settings.LOGIN_REDIRECT_URL)
     else:
         form = CustomUserCreationForm()
@@ -53,11 +56,12 @@ def me_view(request):
 
     user = request.user
     if request.method == "POST":
-        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        img_form = UserProfileForm(request.POST, request.FILES, instance=user)
+        data_form = CustomUserChangeForm(request.POST, instance=user)
 
         if "change_photo" in request.POST:
-            if form.is_valid():
-                form.save()
+            if img_form.is_valid():
+                img_form.save()
                 return redirect("me")
 
         elif "delete_photo" in request.POST:
@@ -65,6 +69,12 @@ def me_view(request):
                 user.profile_image.delete()
                 return redirect("me")
 
+        elif "change_data" in request.POST:
+            if data_form.is_valid():
+                data_form.save()
+                return redirect("me")
+
     else:
-        form = UserProfileForm(instance=user)
-    return render(request, "accounts/me.html", {"user": request.user, "form": form})
+        img_form = UserProfileForm(instance=user)
+        data_form = CustomUserChangeForm(instance=user)
+    return render(request, "accounts/me.html", {"user": request.user, "img_form": img_form, "data_form": data_form})
