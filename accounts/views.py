@@ -18,10 +18,10 @@ def login_view(request):
                 if user is not None:
                     login(request, user)
                     return redirect(settings.LOGIN_REDIRECT_URL)
-            return render(request, "accounts/login.html", {"form": form})
+            return render(request, "accounts/login.html", {"form": form, "request": request})
         else:
             form = CustomUserLoginForm()
-            return render(request, "accounts/login.html", {"form": form})
+            return render(request, "accounts/login.html", {"form": form, "request": request})
 
 
 def is_staff(user):

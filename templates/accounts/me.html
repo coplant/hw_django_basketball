@@ -40,11 +40,15 @@
         <div class="col-lg-7 col-xl-7 col-xxl-8">
           <div class="my-5 text-xl-start">
             <p class="fs-1 fw-bolder text-dark mb-0">{{ user.get_full_name|upper }}</p>
-            <p class="fs-5 fw-normal text-dark mb-3">Команда: {{ user.player.team }} | Номер: {{ user.player.number }} |
-              Позиция: {{ user.player.position|upper }}</p>
+            {% if user.player.team and user.player.number and user.player.position|upper %}
+              <p class="fs-5 fw-normal text-dark mb-3">Команда: {{ user.player.team }} | Номер: {{ user.player.number }}
+                | Позиция: {{ user.player.position|upper }}</p>
+            {% endif %}
             <ul class="lead fw-normal text-dark-50 mb-4">
               <li>Дата рождения: {{ user.player.birth_date|date:"d E Y" }}</li>
-              <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>
+              {% if user.player.birth_date %}
+                <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>
+              {% endif %}
               <li>Рост: {{ user.player.height }}</li>
               <li>Вес: {{ user.player.weight }}</li>
             </ul>
