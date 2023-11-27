@@ -29,13 +29,13 @@
             <div class="row align-items-center gx-5">
               <div class="col h-100">
                 <a class="lead team-link {% if match.winner == match.team_home and match.is_finished %}fw-bolder{% else %}fw-normal{% endif %} fs-2"
-                   href="{% url "home" %}">
+                   href="{% url "team_detail" match.team_home.pk %}">
                   {{ match.team_home }}
                 </a>
               </div>
               <div class="col h-100">
                 <a class="lead team-link {% if match.winner == match.team_away and match.is_finished %}fw-bolder{% else %}fw-normal{% endif %} fs-2"
-                   href="{% url "home" %}">
+                   href="{% url "team_detail" match.team_away.pk %}">
                   {{ match.team_away }}
                 </a>
               </div>
