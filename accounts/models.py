@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField("Почта", unique=True, null=True, blank=True)
     phone_number = PhoneNumberField("Телефон", unique=True, null=True, blank=True)
 
-    profile_image = models.ImageField(upload_to="profile_pics/", blank=True, null=True)
+    profile_image = models.ImageField(upload_to="profile_pics/", blank=True, null=True, default="profile_pics/def.png")
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]

@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 
-from accounts.forms import CustomUserCreationForm, CustomUserLoginForm
+from accounts.forms import CustomUserCreationForm, CustomUserLoginForm, UserProfileForm
 
 
 def login_view(request):
@@ -50,4 +50,21 @@ def logout_view(request):
 def me_view(request):
     if not request.user:
         return redirect(settings.LOGIN_URL)
-    return render(request, "accounts/me.html", {"user": request.user})
+
+    user = request.user
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+
+        if "change_photo" in request.POST:
+            if form.is_valid():
+                form.save()
+                return redirect("me")
+
+        elif "delete_photo" in request.POST:
+            if user.profile_image:
+                user.profile_image.delete()
+                return redirect("me")
+
+    else:
+        form = UserProfileForm(instance=user)
+    return render(request, "accounts/me.html", {"user": request.user, "form": form})
