@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load age_filters %}
 
 {% block title %}
   Профиль - {{ block.super }}
@@ -43,6 +44,7 @@
               Позиция: {{ user.player.position|upper }}</p>
             <ul class="lead fw-normal text-dark-50 mb-4">
               <li>Дата рождения: {{ user.player.birth_date|date:"d E Y" }}</li>
+              <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>
               <li>Рост: {{ user.player.height }}</li>
               <li>Вес: {{ user.player.weight }}</li>
             </ul>
