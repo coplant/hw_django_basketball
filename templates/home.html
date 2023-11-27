@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Главная - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+  <div class="content-container py-5">
+    <div class="container px-5">
+      <div class="row gx-3 align-items-center justify-content-center">
+        <div class="col-lg-8 col-xl-8 col-xxl-8">
+          <div class="my-5 text-center text-xl-start">
+            <h1 class="display-2 fw-bolder text-dark mb-2">{{ 'АСБ - Красноярск'|upper }}</h1>
+            <p class="lead fw-normal text-dark-50 mb-4">В нашей студии вы полюбите фитнес без вреда для здоровья.
+              Подтянутая фигура - результат регулярных тренировок и правильного питания. Похудение, подвижность
+              суставов, здоровая спина - мы подберем подходящие тренировки для каждого! Опытные и внимательные тренеры
+              проводят групповые тренировки по различным направлениям.</p>
+          </div>
+        </div>
+        <div class="col-xl-4 col-xxl-4 d-none d-xl-block text-center">
+          <img class="cover rounded-3 my-5" src="{% static 'img/i.png' %}"
+               alt="АСБ" height="400px" width="600px"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid py-2 overlay">
+    <div class="container px-5 my-5">
+      <div class="row gx-5">
+        <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">{{ 'Больше, чем фитнес. Попробуйте!'|upper }}</h2>
+        </div>
+        <div class="col-lg-8">
+          <div class="row gx-5 row-cols-1 row-cols-md-2">
+            <div class="col mb-5 h-100">
+              <h2 class="lead fw-normal">Индивидуальный подход в групповых тренировках</h2>
+            </div>
+            <div class="col mb-5 h-100">
+              <h2 class="lead fw-normal">Супер жиросжигание на Power Fit</h2>
+            </div>
+            <div class="col mb-5 mb-md-0 h-100">
+              <h2 class="lead fw-normal">Фитнес для здоровья и с удовольствием</h2>
+            </div>
+            <div class="col h-100">
+              <h2 class="lead fw-normal">Избавление от боли на Mind&Body</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {#  <div class="py-5">#}
+  {#    <div class="container px-1 my-3">#}
+  {#      <div class="row gx-5 justify-content-center">#}
+  {#        <div class="col-lg-10 col-xl-7">#}
+  {#          <div class="text-center">#}
+  {#            <div class="fs-5 mb-4 fst-italic">"Дороже всего на свете нам обходится здоровье, если мы не начнем#}
+  {#              заниматься физкультурой сегодня, то завтра расходы на лекарство будут намного больше, чем покупка одежды и#}
+  {#              абонемента в фитнес зал сейчас."#}
+  {#            </div>#}
+  {#            <div class="d-flex align-items-center justify-content-center">#}
+  {#              <div class="fw-bold">#}
+  {#                Джейн Фонда#}
+  {#              </div>#}
+  {#            </div>#}
+  {#          </div>#}
+  {#        </div>#}
+  {#      </div>#}
+  {#    </div>#}
+  {#  </div>#}
+{% endblock %}

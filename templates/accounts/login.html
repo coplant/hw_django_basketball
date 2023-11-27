@@ -1,10 +1,55 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
 {% block content %}
-  <h2>Вход</h2>
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Войти</button>
-  </form>
-{% endblock %}
+  <div class="content-container py-5">
+    <div class="container px-5">
+      <div class="rounded-3 py-5 px-4 px-md-5 mb-5">
+
+        {% block auth_navbar %}
+          <div class="text-center mb-5">
+            <h2 class="fw-bolder m-card-title text-center">{% block form_title %}{% endblock form_title %}</h2>
+            <nav class="text-dark nav nav-pills flex-column flex-sm-row justify-content-center">
+              <a class="text-dark text-sm-center nav-link{% if request.resolver_match.url_name == 'login' %} active{% endif %}"
+                 href="{% url 'login' %}">Вход</a>
+            </nav>
+          </div>
+        {% endblock auth_navbar %}
+
+        <div class="row gx-5 justify-content-center">
+          <div class="mb-3 col-lg-8 col-xl-6">
+            {% block form %}
+              <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                  <div class="non-field-errors">
+                    {% for error in form.non_field_errors %}
+                      <p class="invalid-feedback d-block">{{ error }}</p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                {% for field in form %}
+                  <div class="form-floating mb-3">
+                    {{ field }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {% if field.errors %}
+                      {% for error in field.errors %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                {% endfor %}
+
+                <div class="d-grid">
+                  <button class="text-dark btn btn-primary btn-lg overlay" id="submitButton" type="submit">
+                    {% block button_title %}Войти{% endblock button_title %}
+                  </button>
+                </div>
+              </form>
+            {% endblock form %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
