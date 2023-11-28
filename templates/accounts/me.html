@@ -22,7 +22,7 @@
           <div class="d-flex text-center justify-content-center">
             <form method="post" enctype="multipart/form-data" class="mx-auto">
               {% csrf_token %}
-              {% for field in form %}
+              {% for field in img_form %}
                 <div class="form-floating mb-3">
                   {{ field }}
                   {% if field.errors %}
@@ -44,14 +44,31 @@
               <p class="fs-5 fw-normal text-dark mb-3">Команда: {{ user.player.team }} | Номер: {{ user.player.number }}
                 | Позиция: {{ user.player.position|upper }}</p>
             {% endif %}
-            <ul class="lead fw-normal text-dark-50 mb-4">
-              <li>Дата рождения: {{ user.player.birth_date|date:"d E Y" }}</li>
-              {% if user.player.birth_date %}
-                <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>
-              {% endif %}
-              <li>Рост: {{ user.player.height }}</li>
-              <li>Вес: {{ user.player.weight }}</li>
-            </ul>
+
+            <form method="post" action="{% url 'me' %}">
+              {% csrf_token %}
+              {% for field in data_form %}
+                <div class="form-floating mb-3">
+                  {{ field }}
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {% if field.errors %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+              <button class="btn nav-pills overlay" type="submit" name="change_data">Сохранить</button>
+            </form>
+
+            {#            <ul class="lead fw-normal text-dark-50 mb-4">#}
+            {#              <li>Дата рождения: {{ user.player.birth_date|date:"d E Y" }}</li>#}
+            {#              {% if user.player.birth_date %}#}
+            {#                <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>#}
+            {#              {% endif %}#}
+            {#              <li>Рост: {{ user.player.height }}</li>#}
+            {#              <li>Вес: {{ user.player.weight }}</li>#}
+            {#            </ul>#}
           </div>
         </div>
       </div>
@@ -64,4 +81,13 @@
       </nav>
     </div>
   </div>
+
+  <script>
+      $(function () {
+          $("#datetimepicker1").datetimepicker({
+              format: 'DD/MM/YYYY HH:mm',
+          });
+      });
+  </script>
+
 {% endblock %}

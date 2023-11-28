@@ -23,11 +23,11 @@ class Team(models.Model):
 class Player(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    number = models.IntegerField(null=True, blank=True)
-    height = models.FloatField(null=True, blank=True)
-    weight = models.FloatField(null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    position = models.CharField(max_length=50, null=True, blank=True)
+    number = models.IntegerField("Номер", null=True, blank=True)
+    height = models.FloatField("Рост", null=True, blank=True)
+    weight = models.FloatField("Вес", null=True, blank=True)
+    birth_date = models.DateField("Дата рождения", null=True, blank=True)
+    position = models.CharField("Позиция", max_length=50, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.get_full_name()} {'(' + self.number + ')' if self.number else ''}"

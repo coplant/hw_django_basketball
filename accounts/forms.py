@@ -60,9 +60,15 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(forms.ModelForm):
-    birth_date = forms.DateField(widget=forms.SelectDateWidget(attrs={"class": "form-control"}))
-    height = forms.NumberInput(attrs={"class": "form-control"})
-    weight = forms.NumberInput(attrs={"class": "form-control"})
+    birth_date = forms.DateField(
+        label="Дата рождения", widget=forms.widgets.DateInput(attrs={"type": "date", "class": "form-control"})
+    )
+    height = forms.IntegerField(
+        label="Рост", min_value=100, max_value=300, widget=forms.NumberInput(attrs={"class": "form-control"})
+    )
+    weight = forms.IntegerField(
+        label="Вес", min_value=30, max_value=120, widget=forms.NumberInput(attrs={"class": "form-control"})
+    )
 
     class Meta:
         model = Player

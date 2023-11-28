@@ -76,5 +76,11 @@ def me_view(request):
 
     else:
         img_form = UserProfileForm(instance=user)
-        data_form = CustomUserChangeForm(instance=user)
+
+        user_profile_data = {
+            "birth_date": user.player.birth_date,
+            "height": user.player.height,
+            "weight": user.player.weight,
+        }
+        data_form = CustomUserChangeForm(instance=user, initial=user_profile_data)
     return render(request, "accounts/me.html", {"user": request.user, "img_form": img_form, "data_form": data_form})
