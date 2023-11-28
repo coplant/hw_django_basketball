@@ -1,3 +1,4 @@
+
 from django.conf import settings
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
@@ -60,7 +61,7 @@ def me_view(request):
 
     if request.method == "POST":
         img_form = UserProfileForm(request.POST, request.FILES, instance=user)
-        data_form = CustomUserChangeForm(request.POST, instance=user)
+        data_form = CustomUserChangeForm(request.POST, instance=user.player)
 
         if "change_photo" in request.POST:
             if img_form.is_valid():
@@ -79,12 +80,11 @@ def me_view(request):
 
     else:
         img_form = UserProfileForm(instance=user)
-
         user_profile_data = {
             "birth_date": user.player.birth_date,
             "height": user.player.height,
             "weight": user.player.weight,
         }
-        data_form = CustomUserChangeForm(instance=user, initial=user_profile_data)
+        data_form = CustomUserChangeForm(instance=user.player, initial=user_profile_data)
     return render(request, "accounts/me.html",
                   {"user": request.user, "img_form": img_form, "data_form": data_form, **stat_fields})
