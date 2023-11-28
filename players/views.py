@@ -1,6 +1,8 @@
+from datetime import timedelta
+
+from django.db.models import Sum
 from django.shortcuts import render, get_object_or_404
-from .models import Team, Player, Match
-from .forms import PlayerStatForm
+from .models import Team, Player, Match, MatchStatistics
 
 
 def team_list(request):
@@ -11,7 +13,10 @@ def team_list(request):
 def team_detail(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     players = Player.objects.filter(team=team)
-    return render(request, "players/team_detail.html", {"team": team, "players": players})
+    statistic = MatchStatistics.objects.filter(player__team=team)
+    return render(request, "players/team_detail.html", {
+        "team": team, "players": players, "statistic": statistic, "sf": statistic.model._meta.get_fields() + ()
+    })
 
 
 def match_list(request):
@@ -24,16 +29,27 @@ def past_match_list(request):
     return render(request, "players/match_list.html", {"matches": matches, "is_finished": True})
 
 
-def player_stat(request, player_id):
-    player = get_object_or_404(Player, pk=player_id)
-    if request.method == "POST":
-        form = PlayerStatForm(request.POST)
-        if form.is_valid():
-            ...
-    else:
-        form = PlayerStatForm()
+def player_stat(request):
+    player = get_object_or_404(Player, pk=request.user.player.pk)
+    match_statistics_fields = [(field.name, field.verbose_name) for field in MatchStatistics._meta.get_fields()]
 
-    return render(request, "players/player_stat.html", {"player": player, "form": form})
+    aggregation_dict = {}
+    verbose_names = {}
+    for field, verbose in match_statistics_fields[3:]:
+        verbose_names[field] = verbose
+        if field == "time_played":
+            continue
+        aggregation_dict[field] = Sum(field)
+
+    current_player_statistics = MatchStatistics.objects.filter(player=player)
+
+    times = MatchStatistics.objects.filter(player=player).values_list("time_played", flat=True)
+    hours = map(lambda time: time.hour * 60 * 60 + time.minute * 60 + time.second, times)
+    time_played = sum(hours)
+
+    total_statistics = current_player_statistics.aggregate(**aggregation_dict)
+    total_statistics["time_played"] = str(timedelta(seconds=time_played))
+    return {"player": player, "statistic": total_statistics, "verbose_names": verbose_names}
 
 
 def home_view(request):

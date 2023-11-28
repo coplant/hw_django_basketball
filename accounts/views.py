@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 
 from accounts.forms import CustomUserCreationForm, CustomUserLoginForm, UserProfileForm, CustomUserChangeForm
 from players.models import Player
+from players.views import player_stat
 
 
 def login_view(request):
@@ -55,6 +56,8 @@ def me_view(request):
         return redirect(settings.LOGIN_URL)
 
     user = request.user
+    stat_fields = player_stat(request)
+
     if request.method == "POST":
         img_form = UserProfileForm(request.POST, request.FILES, instance=user)
         data_form = CustomUserChangeForm(request.POST, instance=user)
@@ -83,4 +86,5 @@ def me_view(request):
             "weight": user.player.weight,
         }
         data_form = CustomUserChangeForm(instance=user, initial=user_profile_data)
-    return render(request, "accounts/me.html", {"user": request.user, "img_form": img_form, "data_form": data_form})
+    return render(request, "accounts/me.html",
+                  {"user": request.user, "img_form": img_form, "data_form": data_form, **stat_fields})

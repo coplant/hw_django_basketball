@@ -62,37 +62,37 @@ class Match(models.Model):
 
 
 class MatchStatistics(models.Model):
-    player = models.ForeignKey(Player, on_delete=models.CASCADE)
-    match = models.ForeignKey(Match, on_delete=models.CASCADE)
-    time_played = models.TimeField(default="00:00:00", validators=[validate_time_range])
-    throw_count = models.PositiveIntegerField(default=0)
-    goal_three_count = models.PositiveIntegerField(default=0)
-    goal_two_count = models.PositiveIntegerField(default=0)
-    goal_penalty_count = models.PositiveIntegerField(default=0)
-    rebound_home = models.PositiveIntegerField(default=0)
-    rebound_away = models.PositiveIntegerField(default=0)
-    assist = models.PositiveIntegerField(default=0)
-    interception = models.PositiveIntegerField(default=0)
-    loss = models.PositiveIntegerField(default=0)
-    block_shot = models.PositiveIntegerField(default=0)
-    fouls_player = models.PositiveIntegerField(default=0)
-    fouls_opponent = models.PositiveIntegerField(default=0)
+    player = models.ForeignKey(Player, verbose_name="Игрок", on_delete=models.CASCADE, null=True, blank=True)
+    match = models.ForeignKey(Match, verbose_name="Матч", on_delete=models.CASCADE, null=True, blank=True)
+    time_played = models.TimeField("Время", default="00:00:00", validators=[validate_time_range], null=True, blank=True)
+    throw_count = models.PositiveIntegerField("Количество бросков", default=0, null=True, blank=True)
+    goal_three_count = models.PositiveIntegerField("3", default=0, null=True, blank=True)
+    goal_two_count = models.PositiveIntegerField("2", default=0, null=True, blank=True)
+    goal_penalty_count = models.PositiveIntegerField("Штрафные", default=0, null=True, blank=True)
+    rebound_home = models.PositiveIntegerField("СШ", default=0, null=True, blank=True)
+    rebound_away = models.PositiveIntegerField("ЧШ", default=0, null=True, blank=True)
+    assist = models.PositiveIntegerField("Голевые передачи", default=0, null=True, blank=True)
+    interception = models.PositiveIntegerField("Перехват", default=0, null=True, blank=True)
+    loss = models.PositiveIntegerField("Потери", default=0, null=True, blank=True)
+    block_shot = models.PositiveIntegerField("Блокшоты", default=0, null=True, blank=True)
+    fouls_player = models.PositiveIntegerField("Фолы игрока", default=0, null=True, blank=True)
+    fouls_opponent = models.PositiveIntegerField("Фолы соперника", default=0, null=True, blank=True)
 
-    @property
+    # @property
     def goals_scored(self):
         return self.goal_three_count * 3 + self.goal_two_count * 2 + self.goal_penalty_count
 
-    @property
+    # @property
     def goals_total(self):
         return self.goal_three_count + self.goal_two_count + self.goal_penalty_count
 
-    @property
+    # @property
     def rebounds_total(self):
         return self.rebound_home + self.rebound_away
 
-    @property
+    # @property
     def kpi(self):
-        return self.goals_scored + self.assist + self.interception + self.block_shot + self.fouls_opponent - self.throw_count - self.loss - self.fouls_player
+        return self.goals_scored() + self.assist + self.interception + self.block_shot + self.fouls_opponent - self.throw_count - self.loss - self.fouls_player
 
     def __str__(self):
         return f"Статистика {self.player.user.get_full_name()}"

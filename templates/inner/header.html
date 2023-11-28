@@ -38,8 +38,8 @@
                href="{% url 'match_list' %}">Расписание матчей</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'subscriptions' %}active{% endif %}"
-               href="{% url 'home' %}">Положение команд</a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'team_list' %}active{% endif %}"
+               href="{% url 'team_list' %}">Положение команд</a>
           </li>
         </ul>
       </div>

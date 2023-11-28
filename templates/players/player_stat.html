@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load age_filters %}
+
+{% block title %}
+  {{ player.user.get_full_name }} - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+  <div class="overflow-x-auto my-5">
+    <table class="table my-0 overlay table-hover container">
+      <thead>
+      <tr>
+        <th scope="col" class="align-middle">Показатель</th>
+        <th scope="col" class="align-middle">Значение</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for field, total_value in statistic.items %}
+        <tr>
+          <td>{{ verbose_names|get_value:field }}</td>
+          <td>{{ total_value }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

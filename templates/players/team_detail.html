@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ team.name }} - {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+  <div class="overflow-x-auto my-5">
+    <table class="table my-0 overlay table-hover container-fluid">
+      <thead>
+      <tr>
+        {% for i in sf %}
+          <th scope="col" class="align-middle">{{ i.verbose_name }}</th>
+        {% endfor %}
+      </tr>
+      </thead>
+      <tbody>
+      {% for player in players %}
+        <tr>
+          {% for stat in player.matchstatistics_set.all %}
+            <td class="align-middle">
+              {{ stat.player.number }}
+            </td>
+            <td class="align-middle">
+              {{ stat.player.user.get_full_name }}
+            </td>
+            <td class="align-middle">
+              {{ stat.time_played }}
+            </td>
+            <td class="align-middle">
+              {{ stat.throw_count }}
+            </td>
+            <td class="align-middle">
+
+            </td>
+            <td class="align-middle">
+
+            </td>
+            <td class="align-middle">
+
+            </td>
+            <td class="align-middle">
+
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -60,34 +60,39 @@
               {% endfor %}
               <button class="btn nav-pills overlay" type="submit" name="change_data">Сохранить</button>
             </form>
-
-            {#            <ul class="lead fw-normal text-dark-50 mb-4">#}
-            {#              <li>Дата рождения: {{ user.player.birth_date|date:"d E Y" }}</li>#}
-            {#              {% if user.player.birth_date %}#}
-            {#                <li>Возраст: {{ user.player.birth_date|calculate_age }}</li>#}
-            {#              {% endif %}#}
-            {#              <li>Рост: {{ user.player.height }}</li>#}
-            {#              <li>Вес: {{ user.player.weight }}</li>#}
-            {#            </ul>#}
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="content-container pb-5">
-    <div class="text-center my-2">
+    <div class="text-center mt-2">
       <nav class="text-dark nav nav-pills flex-column flex-sm-row justify-content-center">
         <p class="text-dark text-sm-center overlay nav-link active">Статистика</p>
       </nav>
+      <div class="overflow-x-auto mt-1 mb-5">
+        <div class="overlay container">
+          <div class="row">
+            <div class="col">
+              <div class="my-2">Показатель</div>
+            </div>
+            <div class="col">
+              <div class="my-2">Значение</div>
+            </div>
+          </div>
+
+          {% for field, total_value in statistic.items %}
+            <div class="row">
+              <div class="col my-2">{{ verbose_names|get_value:field }}</div>
+              {% if total_value %}
+                <div class="col my-2">{{ total_value }}</div>
+              {% else %}
+                <div class="col my-2">---</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
-
-  <script>
-      $(function () {
-          $("#datetimepicker1").datetimepicker({
-              format: 'DD/MM/YYYY HH:mm',
-          });
-      });
-  </script>
-
 {% endblock %}
