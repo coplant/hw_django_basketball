@@ -12,10 +12,19 @@
         <div class="col-lg-8 col-xl-8 col-xxl-8">
           <div class="my-5 text-center text-xl-start">
             <h1 class="display-2 fw-bolder text-dark mb-2">{{ 'АСБ - Красноярск'|upper }}</h1>
-            <p class="lead fw-normal text-dark-50 mb-4">В нашей студии вы полюбите фитнес без вреда для здоровья.
-              Подтянутая фигура - результат регулярных тренировок и правильного питания. Похудение, подвижность
-              суставов, здоровая спина - мы подберем подходящие тренировки для каждого! Опытные и внимательные тренеры
-              проводят групповые тренировки по различным направлениям.</p>
+            <p class="lead fw-normal text-dark-50 mb-4">
+              Ассоциация студенческого баскетбола — спортивная ассоциация, проводящая
+              официальный студенческий чемпионат России по баскетболу.
+              <br>
+              <br>
+              Наш проект предназначен для того, чтобы каждый студент мог продемонстрировать свои навыки и способности в
+              баскетболе, став частью национального чемпионата. Мы создаем возможность для страны узнать своих настоящих
+              чемпионов!
+              <br>
+              <br>
+              Здесь вы сможете отслеживать матчи университетов, следить за ходом соревнований и изучать статистику
+              игроков команд.
+            </p>
           </div>
         </div>
         <div class="col-xl-4 col-xxl-4 d-none d-xl-block text-center">
@@ -28,46 +37,18 @@
 
   <div class="container-fluid py-2 overlay">
     <div class="container px-5 my-5">
-      <div class="row gx-5">
-        <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">{{ 'Больше, чем фитнес. Попробуйте!'|upper }}</h2>
+      <div class="row gx-5 text-center justify-content-center align-items-center">
+        <div class="col-lg-4 mb-5 mb-lg-0 justify-content-center">
+          <h2 class="fw-bolder mb-0">{{ 'ты можешь дальше, больше'|upper }}</h2>
         </div>
-        <div class="col-lg-8">
-          <div class="row gx-5 row-cols-1 row-cols-md-2">
-            <div class="col mb-5 h-100">
-              <h2 class="lead fw-normal">Индивидуальный подход в групповых тренировках</h2>
-            </div>
-            <div class="col mb-5 h-100">
-              <h2 class="lead fw-normal">Супер жиросжигание на Power Fit</h2>
-            </div>
-            <div class="col mb-5 mb-md-0 h-100">
-              <h2 class="lead fw-normal">Фитнес для здоровья и с удовольствием</h2>
-            </div>
-            <div class="col h-100">
-              <h2 class="lead fw-normal">Избавление от боли на Mind&Body</h2>
-            </div>
-          </div>
+        <div class="col-lg-4 mb-5 mb-lg-0 justify-content-center">
+          <img class="cover rounded-3" src="{% static 'img/footer.png' %}"
+               alt="АСБ"/>
+        </div>
+        <div class="col-lg-4 mb-5 mb-lg-0 justify-content-center">
+          <h2 class="fw-bolder mb-0">{{ 'come on everybody put your hands up!'|upper }}</h2>
         </div>
       </div>
     </div>
   </div>
-
-  {#  <div class="py-5">#}
-  {#    <div class="container px-1 my-3">#}
-  {#      <div class="row gx-5 justify-content-center">#}
-  {#        <div class="col-lg-10 col-xl-7">#}
-  {#          <div class="text-center">#}
-  {#            <div class="fs-5 mb-4 fst-italic">"Дороже всего на свете нам обходится здоровье, если мы не начнем#}
-  {#              заниматься физкультурой сегодня, то завтра расходы на лекарство будут намного больше, чем покупка одежды и#}
-  {#              абонемента в фитнес зал сейчас."#}
-  {#            </div>#}
-  {#            <div class="d-flex align-items-center justify-content-center">#}
-  {#              <div class="fw-bold">#}
-  {#                Джейн Фонда#}
-  {#              </div>#}
-  {#            </div>#}
-  {#          </div>#}
-  {#        </div>#}
-  {#      </div>#}
-  {#    </div>#}
-  {#  </div>#}
 {% endblock %}

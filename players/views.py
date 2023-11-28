@@ -13,9 +13,15 @@ def team_list(request):
 def team_detail(request, team_id):
     team = get_object_or_404(Team, pk=team_id)
     players = Player.objects.filter(team=team)
-    statistic = MatchStatistics.objects.filter(player__team=team)
+    statistic = {}
+    vb = {}
+    for player in players:
+        statistic[player.pk] = player_stat(request, player)
+        if not vb:
+            vb = statistic.get(player.pk).get("verbose_names")
+
     return render(request, "players/team_detail.html", {
-        "team": team, "players": players, "statistic": statistic, "sf": statistic.model._meta.get_fields() + ()
+        "team": team, "statistic": statistic, "vb": vb
     })
 
 
@@ -29,8 +35,9 @@ def past_match_list(request):
     return render(request, "players/match_list.html", {"matches": matches, "is_finished": True})
 
 
-def player_stat(request):
-    player = get_object_or_404(Player, pk=request.user.player.pk)
+def player_stat(request, player=None):
+    if not player:
+        player = get_object_or_404(Player, pk=request.user.player.pk)
     match_statistics_fields = [(field.name, field.verbose_name) for field in MatchStatistics._meta.get_fields()]
 
     aggregation_dict = {}
@@ -47,8 +54,8 @@ def player_stat(request):
     hours = map(lambda time: time.hour * 60 * 60 + time.minute * 60 + time.second, times)
     time_played = sum(hours)
 
-    total_statistics = current_player_statistics.aggregate(**aggregation_dict)
-    total_statistics["time_played"] = str(timedelta(seconds=time_played))
+    total_statistics = {"time_played": str(timedelta(seconds=time_played))}
+    total_statistics.update(current_player_statistics.aggregate(**aggregation_dict))
     return {"player": player, "statistic": total_statistics, "verbose_names": verbose_names}
 
 
