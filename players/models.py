@@ -30,7 +30,7 @@ class Player(models.Model):
     position = models.CharField("Позиция", max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.get_full_name()} {'(' + self.number + ')' if self.number else ''}"
+        return f"{self.user.get_full_name()} {'(' + str(self.number) + ')' if str(self.number) else ''}"
 
 
 class Match(models.Model):
